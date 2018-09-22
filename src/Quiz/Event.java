@@ -10,12 +10,12 @@ public class Event
 {
 	public Event(String name) throws IOException
 	{
-		System.out.println("для начала, выберите тематику вопросов: 1.Матмех 2.География");
+		System.out.println("Р”Р»СЏ РЅР°С‡Р°Р»Р°, РІС‹Р±РµСЂРёС‚Рµ С‚РµРјР°С‚РёРєСѓ РІРѕРїСЂРѕСЃРѕРІ: 1СЋРњР°С‚РјРµС…, 2.Р“РµРѕРіСЂР°С„РёСЏ");
 		Scanner enter = new Scanner(System.in);
 		int selectTheme = enter.nextInt();
 		if (selectTheme == 0)
 		{
-			System.out.println("Тут всё легко. Отвечаешь на вопросы и зарабатываешь очки");
+			System.out.println("РўСѓС‚ РІСЃС‘ РїСЂРѕСЃС‚Рѕ, РѕС‚РІРµС‡Р°РµС€СЊ РЅР° РІРѕРїСЂРѕСЃС‹ Рё Р·Р°СЂР°Р±Р°С‚С‹РІР°РµС€СЊ РѕС‡РєРё.");
 			selectTheme = enter.nextInt();		
 		}
 		String theme = null;
@@ -49,11 +49,11 @@ public class Event
 				break;
 			}
 			else if (asd1 == 0)
-				System.out.println("Тут всё легко. Отвечаешь на вопросы и зарабатываешь очки");
+				System.out.println("РўСѓС‚ РІСЃС‘ РїСЂРѕСЃС‚Рѕ, РѕС‚РІРµС‡Р°РµС€СЊ РЅР° РІРѕРїСЂРѕСЃС‹ Рё Р·Р°СЂР°Р±Р°С‚С‹РІР°РµС€СЊ РѕС‡РєРё.");
 			else
 			{
 				point+=100;
-				System.out.println("Молодец, у тебя " + point + " очков");
+				System.out.println("РњРѕР»РѕРґРµС†, Сѓ С‚РµР±СЏ " + point + " РѕС‡РєРѕРІ");
 				qwe.remove(vopros);
 			}
 		}
