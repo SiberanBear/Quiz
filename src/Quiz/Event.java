@@ -10,7 +10,7 @@ public class Event
 {
 	public Event(String name) throws IOException
 	{
-		System.out.println("Для начала, выберите тематику вопросов: 1юМатмех, 2.География");
+		System.out.println("Для начала, выберите тематику вопросов: 1.Матмех, 2.География");
 		Scanner enter = new Scanner(System.in);
 		int selectTheme = enter.nextInt();
 		if (selectTheme == 0)
