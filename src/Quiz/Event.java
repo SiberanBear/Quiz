@@ -10,10 +10,27 @@ public class Event
 {
 	public Event(String name) throws IOException
 	{
-		Question ls = new Question("C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\2.txt");
+		System.out.println("для начала, выберите тематику вопросов: 1.Матмех 2.География");
 		Scanner enter = new Scanner(System.in);
+		int selectTheme = enter.nextInt();
+		if (selectTheme == 0)
+		{
+			System.out.println("Тут всё легко. Отвечаешь на вопросы и зарабатываешь очки");
+			selectTheme = enter.nextInt();		
+		}
+		String theme = null;
+		switch(selectTheme) 
+		{
+			case 1:
+				theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\1.txt";
+				break;
+			case 2:
+				theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\2.txt";
+				break;
+		}
+		Question ls = new Question(theme);		
 		int point = 0;
-		int choise = enter.nextInt();
+		//int choise = enter.nextInt();
 		ArrayList<String> qwe = ls.getQwest();
 		HashMap<String, Integer>dic = ls.getDict();
 		while(true) 
@@ -23,28 +40,21 @@ public class Event
 				System.out.println("YOU WIN!!!");
 				break;
 			}
-			if (choise == 1) 
+			String vopros = qwe.get(new Random().nextInt(qwe.size()));
+			System.out.println(vopros);
+			int asd1 = enter.nextInt();
+			if (asd1 != dic.get(vopros) && asd1 != 0) 
 			{
-				String vopros = qwe.get(new Random().nextInt(qwe.size()));
-				System.out.println(vopros);
-				int asd1 = enter.nextInt();
-				if (asd1 != dic.get(vopros) && asd1 != 0) 
-				{
-					System.out.println(name + ", GAME OVER!!!!");
-					break;
-				}
-				else if (asd1 == 0)
-					System.out.println("Тут всё легко. Отвечаешь на вопросы и зарабатываешь очки");
-				else
-				{
-					point+=100;
-					System.out.println("Молодец, у тебя " + point + " очков");
-					qwe.remove(vopros);
-				}
+				System.out.println(name + ", GAME OVER!!!!");
+				break;
 			}
-			else if(choise == 0) 
-			{
+			else if (asd1 == 0)
 				System.out.println("Тут всё легко. Отвечаешь на вопросы и зарабатываешь очки");
+			else
+			{
+				point+=100;
+				System.out.println("Молодец, у тебя " + point + " очков");
+				qwe.remove(vopros);
 			}
 		}
 	}
