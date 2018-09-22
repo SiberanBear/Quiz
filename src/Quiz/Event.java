@@ -1,20 +1,19 @@
 package Quiz;
-import java.io.*;
-import java.util.*;
-public class Quiz 
-{//подсказки жизни(бальная система)
-	public static void main(String[] args) throws IOException
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Event 
+{
+	public Event(String name) throws IOException
 	{
-		//Question ls = new Question("C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\2.txt");
-		System.out.println("Приветствую Вас в нашей викторине!\nВведите Ваше имя:");		
+		Question ls = new Question("C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\2.txt");
 		Scanner enter = new Scanner(System.in);
-		String name = enter.next();
-		System.out.println("Для ответа на вопросы используйте клавиши от 1 до 4. Справка вызывается по нажатию клавиши 0");
-		//int point = 0;
-		System.out.println("Приятно познакомиться, " + name + "!\nГотов вступить в незабываемую схватку с ИИ? Или у тебя ещё остались вопросы?");
-		//int choise = enter.nextInt();
-		Event s = new Event(name);
-		/*int choise = enter.nextInt();
+		int point = 0;
+		int choise = enter.nextInt();
 		ArrayList<String> qwe = ls.getQwest();
 		HashMap<String, Integer>dic = ls.getDict();
 		while(true) 
@@ -47,7 +46,6 @@ public class Quiz
 			{
 				System.out.println("Тут всё легко. Отвечаешь на вопросы и зарабатываешь очки");
 			}
-		}*/
+		}
 	}
-
 }
