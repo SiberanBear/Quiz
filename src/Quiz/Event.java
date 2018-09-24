@@ -23,32 +23,32 @@ public class Event
 			theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\1.txt";
 		else if (selectTheme == 2)
 			theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\2.txt";
-		Question ls = new Question(theme);		
+		Question creater = new Question(theme);		
 		int point = 0;
-		ArrayList<String> qwe = ls.getQwest();
-		HashMap<String, Integer>dic = ls.getDict();
+		ArrayList<String> quest = creater.getQwest();
+		HashMap<String, Integer> dict = creater.getDict();
 		while(true) 
 		{
-			if (qwe.isEmpty()) 
+			if (quest.isEmpty()) 
 			{
 				System.out.println("YOU WIN!!!");
 				break;
 			}
-			String vopros = qwe.get(new Random().nextInt(qwe.size()));
+			String vopros = quest.get(new Random().nextInt(quest.size()));
 			System.out.println(vopros);
-			int asd1 = enter.nextInt();
-			if (asd1 != dic.get(vopros) && asd1 != 0) 
+			int answer = enter.nextInt();
+			if (answer != dict.get(vopros) && answer != 0) 
 			{
 				System.out.println(name + ", GAME OVER!!!!");
 				break;
 			}
-			else if (asd1 == 0)
+			else if (answer == 0)
 				System.out.println("Тут всё просто, отвечаешь на вопросы и зарабатываешь очки.");
 			else
 			{
 				point+=100;
 				System.out.println("Молодец, у тебя " + point + " очков");
-				qwe.remove(vopros);
+				quest.remove(vopros);
 			}
 		}
 	}
