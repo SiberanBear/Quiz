@@ -1,7 +1,7 @@
 package Quiz;
 import java.io.*;
 import java.util.*;
-public class Quiz 
+public class Main 
 {
 	public static void main(String[] args) throws IOException
 	{
