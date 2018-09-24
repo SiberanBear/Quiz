@@ -19,18 +19,12 @@ public class Event
 			selectTheme = enter.nextInt();		
 		}
 		String theme = null;
-		switch(selectTheme) 
-		{
-			case 1:
-				theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\1.txt";
-				break;
-			case 2:
-				theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\2.txt";
-				break;
-		}
+		if (selectTheme == 1)
+			theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\1.txt";
+		else if (selectTheme == 2)
+			theme = "C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\2.txt";
 		Question ls = new Question(theme);		
 		int point = 0;
-		//int choise = enter.nextInt();
 		ArrayList<String> qwe = ls.getQwest();
 		HashMap<String, Integer>dic = ls.getDict();
 		while(true) 

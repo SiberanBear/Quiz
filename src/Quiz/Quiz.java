@@ -2,7 +2,7 @@ package Quiz;
 import java.io.*;
 import java.util.*;
 public class Quiz 
-{//подсказки жизни(бальная система)
+{
 	public static void main(String[] args) throws IOException
 	{
 		System.out.println("Приветствую Вас в нашей викторине!\nВведите Ваше имя:");		
@@ -12,5 +12,4 @@ public class Quiz
 		System.out.println("Для ответа на вопросы используйте клавиши от 1 до 4. Справка вызывается по нажатию клавиши 0");	
 		Event s = new Event(name);	
 	}
-
 }

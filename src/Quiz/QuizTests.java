@@ -13,15 +13,15 @@ public class QuizTests {
 	@Test
 	public void test() throws IOException {
 		HashMap<String, Integer> dict = new Question("C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\TestQwest.txt").getDict();	
-		assertEquals(2, dict.get("С какой из этих стран Чехия НЕ граничит? 1.Польша 2.Венгрия 3.Австрия 4.Германия").intValue());
-		assertEquals(4, dict.get("В какое море не впадает ни одной реки? 1.Желтое 2.Балтийское 3.Черное 4.Красное").intValue());
+		assertEquals(2, dict.get("РЎ РєР°РєРѕР№ РёР· СЌС‚РёС… СЃС‚СЂР°РЅ Р§РµС…РёСЏ РќР• РіСЂР°РЅРёС‡РёС‚? 1.РџРѕР»СЊС€Р° 2.Р’РµРЅРіСЂРёСЏ 3.РђРІСЃС‚СЂРёСЏ 4.Р“РµСЂРјР°РЅРёСЏ").intValue());
+		assertEquals(4, dict.get("Р’ РєР°РєРѕРµ РјРѕСЂРµ РЅРµ РІРїР°РґР°РµС‚ РЅРё РѕРґРЅРѕР№ СЂРµРєРё? 1.Р–РµР»С‚РѕРµ 2.Р‘Р°Р»С‚РёР№СЃРєРѕРµ 3.Р§РµСЂРЅРѕРµ 4.РљСЂР°СЃРЅРѕРµ").intValue());
 	}
 	
 	@Test
 	public void failtest() throws IOException {
 		HashMap<String, Integer> dict = new Question("C:\\Users\\Pasha\\eclipse-workspace\\Quiz\\TestQwest.txt").getDict();	
-		assertNotEquals(4, dict.get("С какой из этих стран Чехия НЕ граничит? 1.Польша 2.Венгрия 3.Австрия 4.Германия").intValue());
-		assertNotEquals(2, dict.get("В какое море не впадает ни одной реки? 1.Желтое 2.Балтийское 3.Черное 4.Красное").intValue());
+		assertNotEquals(4, dict.get("РЎ РєР°РєРѕР№ РёР· СЌС‚РёС… СЃС‚СЂР°РЅ Р§РµС…РёСЏ РќР• РіСЂР°РЅРёС‡РёС‚? 1.РџРѕР»СЊС€Р° 2.Р’РµРЅРіСЂРёСЏ 3.РђРІСЃС‚СЂРёСЏ 4.Р“РµСЂРјР°РЅРёСЏ").intValue());
+		assertNotEquals(2, dict.get("Р’ РєР°РєРѕРµ РјРѕСЂРµ РЅРµ РІРїР°РґР°РµС‚ РЅРё РѕРґРЅРѕР№ СЂРµРєРё? 1.Р–РµР»С‚РѕРµ 2.Р‘Р°Р»С‚РёР№СЃРєРѕРµ 3.Р§РµСЂРЅРѕРµ 4.РљСЂР°СЃРЅРѕРµ").intValue());
 	}
 	
 	@Test

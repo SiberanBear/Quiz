@@ -18,12 +18,14 @@ public class Question
         this.line = this.reader.readLine();
         
 	}
-	public ArrayList<String> getQwest(){
+	
+	public ArrayList<String> getQwest()
+	{
 		return this.qwest;
 	}
 	
-	public HashMap<String, Integer> getDict() throws IOException{
-		
+	public HashMap<String, Integer> getDict() throws IOException
+	{	
 		while(this.line != null) 
 		{
 			if (this.line.length() == 1)
@@ -33,7 +35,7 @@ public class Question
         	this.line = this.reader.readLine();
 		}
 		
-        for (int i = 0; i < this.qwest.size() || i < this.answer.size(); i++)
+        for (int i = 0; i < this.qwest.size(); i++)
         	this.dict.put(this.qwest.get(i), Integer.parseInt(this.answer.get(i)));
         return dict;
 	}
