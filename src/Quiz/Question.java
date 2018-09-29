@@ -21,8 +21,6 @@ public class Question
 //		if (!filename1.exists())
 //			throw new MyException();
 		FileReader fr = new FileReader(filename1);
-//		if(!filename1.exists())
-//			throw new MyException();
         this.reader = new BufferedReader(fr);
         this.line = this.reader.readLine();
 	}
