@@ -10,6 +10,11 @@ public class Main
 		String name = enter.next();
 		System.out.println("Приятно познакомиться, " + name + "!\nГотов вступить в незабываемую схватку с ИИ? Или у тебя ещё остались вопросы?");
 		System.out.println("Для ответа на вопросы используйте клавиши от 1 до 4. Справка вызывается по нажатию клавиши 0");	
-		Event s = new Event(name);	
+		Event s = new Event(name);
+		Question creater = new Question(s.selectTheme);
+		List<String> quest = creater.getQwest();
+		Map<String, Integer> dict = creater.getDict();
+		s.gameQuiz(quest, dict, name);
+		
 	}
 }

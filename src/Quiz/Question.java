@@ -4,39 +4,50 @@ import java.util.*;
 
 public class Question 
 {
-	public String line;
-	public BufferedReader reader;
-	ArrayList<String> qwest = new ArrayList<>();
-    ArrayList<String> answer = new ArrayList<>();
-    HashMap<String, Integer> dict = new HashMap<String, Integer>();
+	private String line;
+	private BufferedReader reader;
+	List<String> qwest = new ArrayList<>();
+	List<Integer> answer = new ArrayList<>();
+    Map<String, Integer> dict = new HashMap<String, Integer>();
 	
-	public Question(String filename) throws IOException 
+	public Question(int selectTheme) throws IOException 
 	{
-		File filename1 = new File(filename);
+		String theme = null;
+		if (selectTheme == 1)
+			theme = "1.txt";
+		else if (selectTheme == 2)
+			theme = "2.txt";
+		File filename1 = new File(theme);
+//		if (!filename1.exists())
+//			throw new MyException();
 		FileReader fr = new FileReader(filename1);
+//		if(!filename1.exists())
+//			throw new MyException();
         this.reader = new BufferedReader(fr);
         this.line = this.reader.readLine();
-        
 	}
-	
-	public ArrayList<String> getQwest()
+		
+	public List<String> getQwest()
 	{
 		return this.qwest;
 	}
 	
-	public HashMap<String, Integer> getDict() throws IOException
+	public Map<String, Integer> getDict() throws IOException
 	{	
+		String lastLine = null;
 		while(this.line != null) 
 		{
 			if (this.line.length() == 1)
-        		this.answer.add(this.line);
-        	else
+			{
+				this.dict.put(lastLine, Integer.parseInt(this.line));
+			}
+        	else 
+        	{	
         		this.qwest.add(this.line);
+        		lastLine = this.line;
+        	}
         	this.line = this.reader.readLine();
 		}
-		
-        for (int i = 0; i < this.qwest.size(); i++)
-        	this.dict.put(this.qwest.get(i), Integer.parseInt(this.answer.get(i)));
-        return dict;
+		return dict;
 	}
 }
