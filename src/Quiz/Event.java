@@ -1,6 +1,7 @@
 package Quiz;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,56 +11,84 @@ import java.util.Scanner;
 public class Event 
 {	
 	public String selectTheme;
+	public String help = "Правила очень простые: Я буду задавать вопросы, "
+			+ "а тебе нужно будет выбрать из четырёх вариантов ответа единственно верный. \n"
+			+ "За правильный ответ будет начислено 100 очков, за неправильный - отнято 300. "
+			+ "Как выиграть? Останься в плюсе до конца! Удачной игры!\n";
 	Scanner enter = new Scanner(System.in);
-	public Event(String name)
-	{
-		Map<String, String> d = new HashMap<String, String>();
-		d.put("1.txt", "1.матмех");
-		d.put("2.txt", "2.география");
-		System.out.println("Для начала, выберите тематику вопросов: " + (String)d.get("1.txt") + " " + (String)d.get("2.txt"));	
-		this.selectTheme = enter.next();
-		while (this.selectTheme == "0")
-		{
-			System.out.println("Правила очень простые: Я буду задавать вопросы, "
-					+ "а тебе нужно будет выбрать из четырёх вариантов ответа единственно верный. \n"
-					+ "За правильный ответ будет начислено 100 очков, за неправильный - отнято 300. "
-					+ "Как выиграть? Останься в плюсе до конца! Удачной игры!");
-			this.selectTheme = enter.next();		
-		}		
-	}
-	public void gameQuiz(List<String> quest,Map<String, Integer> dict, String name) 
+	Map<String, Integer> dict = new HashMap<String, Integer>();
+	List<String> quest = new ArrayList<String>();
+	int lastAns = 1;
+	String lastVopros = null;
+	
+	public void gameQuiz(String name, List<String> goodAnswer, List<String> badAnswer) throws FileException
 	{
 		int point = 0;
 		int choise = quest.size();
-		while(true) 
-		{
-			if (choise == 0) 
-			{
+		String question = null;
+		while(true) {
+			if (choise == 0) {
 				System.out.println("YOU WIN!!!");
 				break;
 			}
-			String vopros = quest.get(new Random().nextInt(choise));
-			System.out.println(vopros);
+			question = selectQuest(question, choise);
 			int answer = enter.nextInt();
-			if (answer != dict.get(vopros) && answer != 0) 
-			{
+			if (answer != dict.get(question) && answer != 0) {	
 				point -= 300;
-				System.out.println("Неправильно! У тебя " + point + " очков");
-				if (point <= 0) 
-				{
+				System.out.println(badAnswer.get(new Random().nextInt(badAnswer.size()))
+						+ " У тебя " + point + " очков");
+				if (point <= 0) {
 					System.out.println(name + ", GAME OVER!!!!");
 					break;
 				}
 			}
-			else if (answer == 0)
-				System.out.println("Тут всё просто, отвечаешь на вопросы и зарабатываешь очки.");
-			else
-			{
-				point+=100;
-				System.out.println("Молодец, у тебя " + point + " очков");
-				Collections.swap(quest, quest.indexOf(vopros), choise-1);
-				choise--;
+			else if (answer == 0) {
+				this.lastAns = answer;
+				this.lastVopros = question;
+				System.out.println(this.help);
 			}
+			else {
+				this.lastAns = answer;
+				point+=100;
+				System.out.println(goodAnswer.get(new Random().nextInt(goodAnswer.size()))
+						+ " У тебя " + point + " очков");	
+			}
+			Collections.swap(quest, quest.indexOf(question), choise-1);
+			choise--;
 		}
+	}
+	
+	public void startGame() throws FileException
+	{
+		System.out.println("Привет! Для начала скажи, как я могу к тебе обращаться?");		
+		Scanner enter = new Scanner(System.in);
+		String name = enter.next();
+		System.out.println("Приятно познакомиться, " + name + "!\nДавай сыграем! "
+				+ "\nДля ответа на вопросы используйте клавиши от 1 до 4. Справка вызывается по нажатию клавиши 0");
+		Question creater = new Question();
+		System.out.println("Для начала, выберите тематику вопросов: " + creater.dictTheme.get("1.txt") + " " + creater.dictTheme.get("2.txt"));	
+		this.selectTheme = enter.next();	
+		while (this.selectTheme.contains("0"))
+		{			
+			System.out.println(this.help + "Тематики: " + creater.dictTheme.get("1.txt") + " " + creater.dictTheme.get("2.txt"));
+			this.selectTheme = enter.next();			
+		}
+		creater.readFile(this.selectTheme);
+		dict = creater.getDict();
+		quest = creater.getQwest();
+		List<String> goodAnswer = creater.getAnswer("GoodAnswer.txt");
+		List<String> badAnswer = creater.getAnswer("BadAnswer.txt");
+		gameQuiz(name, goodAnswer, badAnswer);
+	}
+	
+	public String selectQuest(String vopros, int choise) 
+	{
+		if (this.lastAns == 0)
+			vopros = this.lastVopros;
+		else
+			vopros = quest.get(new Random().nextInt(choise));
+		String [] s = vopros.split(":");
+		System.out.println(s[0] + " \n" + s[1]);
+		return vopros;
 	}
 }
