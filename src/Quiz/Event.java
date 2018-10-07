@@ -33,7 +33,7 @@ public class Event
 			}
 			question = selectQuest(question, choise);
 			int answer = enter.nextInt();
-			if (answer != dict.get(question) && answer != 0) {	
+			if (answer != dict.get(question) && answer != 0){	
 				point -= 300;
 				System.out.println("Неверно! У тебя " + point + " очков");
 				if (point <= 0) {

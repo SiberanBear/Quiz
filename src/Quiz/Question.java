@@ -43,7 +43,7 @@ public class Question
 		String lastQuest = null;
 		int lastAnswer = 0;
 		while(true) {
-			try {
+			try{
 				this.line = this.reader.readLine();
 			}
 			catch (IOException e) {
