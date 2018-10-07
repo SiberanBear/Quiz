@@ -9,7 +9,7 @@ import org.junit.Test;
 public class QuizTests {
 
 	@Test
-	public void test() throws FileException {
+	public void test() throws FileException{
 		Question creater = new Question();
 		creater.readFile("география");
 		Map<String, Integer> dict = creater.getDict();	
