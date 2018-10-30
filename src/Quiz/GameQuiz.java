@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 
 public class GameQuiz {
 	
@@ -24,17 +23,11 @@ public class GameQuiz {
 			}
 			question = e.selectQuest(app, choise, name, this.lastAns, this.lastQuest, questList);
 			app.label.setText(question);
-//			try {
-//				Thread.sleep(5000);
-//			} catch (InterruptedException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
 			app.number = "0";
-			int answer = Integer.parseInt(app.getNumber());
+			int answer = Integer.parseInt(app.number);
 			while (answer == 0)
-				answer = Integer.parseInt(app.getNumber());			
-			if (answer != dict.get(question) && answer != 0 && answer != 5) {	
+				answer = Integer.parseInt(app.number);			
+			if (answer != dict.get(question) && answer != 6 && answer != 5) {	
 				point -= 300;
 				app.label1.setText(badAnswer.get(new Random().nextInt(badAnswer.size())) + "У тебя: " + point + " очков");
 				Collections.swap(questList, questList.indexOf(question), choise-1);
@@ -44,17 +37,17 @@ public class GameQuiz {
 					break;
 				}
 			}
-			else if (answer == 0) {
+			else if (answer == 6) {
+				app.label1.setText(e.help);
 				lastAns = answer;
-				lastQuest = question;
-				app.label.setText(e.help);
+				lastQuest = question;			
 			}
 			else if (answer == 5) {
-				if (point <= 500)
+				if (point <= 300)
 					app.label1.setText("У тебя недостаточно очков, чтобы взять подсказку");
 				else {			
 					e.getHint(app, question, dict.get(question));
-					point-=500;
+					point-=300;
 				}
 				this.lastAns = answer;
 				this.lastQuest = question;
