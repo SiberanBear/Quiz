@@ -7,58 +7,83 @@ import java.util.Random;
 
 public class GameQuiz {
 	
-	private int lastAns = 1;
-	private String lastQuest = null;
-	
-	public void gameQuiz(String name, GUI app, Map<String, Integer> dict, List<String> questList, List<String> goodAnswer, List<String> badAnswer) throws FileException
+	public int lastAns = 1;
+	public String lastQuest = null;
+	int choise = 1;
+	String question;
+	String botAnswer; 
+	String number;
+	int point;
+	boolean flag = false;
+	//int answer = 0; первое нажатие кнопки для выбора тематики
+	//Может вызывать вопрос отдельно, потом нажимать на кнопку, а затем передавать в quiz вопрос и ответ?
+	public void gameQuiz(String name, Map<String, Integer> dict, List<String> questList, List<String> goodAnswer, List<String> badAnswer, Event e) throws FileException
 	{	
-		Event e = new Event();
-		int point = 0;
-		int choise = questList.size();
-		String question = null;
+		point = 0;
+		choise = questList.size();		
 		while(true) {
 			if (choise == 0) {
-				app.label.setText(name + "YOU WIN!!!");
 				break;
 			}
-			question = e.selectQuest(app, choise, name, this.lastAns, this.lastQuest, questList);
-			app.label.setText(question);
-			app.number = "0";
-			int answer = Integer.parseInt(app.number);
-			while (answer == 0)
-				answer = Integer.parseInt(app.number);			
-			if (answer != dict.get(question) && answer != 6 && answer != 5) {	
+			question = e.selectQuest(choise, name, lastAns, lastQuest, questList);
+			setQ(question);
+			number = "0";
+			System.out.println(question);
+			int answer = Integer.parseInt(number);
+			while(answer == 0) {
+				Thread.yield();
+				answer = Integer.parseInt(getAnswer());
+			}
+				
+			System.out.println(answer);
+			
+			if (answer != dict.get(question) && answer != 6 && answer != 5 && answer != 8) {	
 				point -= 300;
-				app.label1.setText(badAnswer.get(new Random().nextInt(badAnswer.size())) + "У тебя: " + point + " очков");
+				botAnswer = badAnswer.get(new Random().nextInt(badAnswer.size())) + "У тебя: " + point + " очков";
 				Collections.swap(questList, questList.indexOf(question), choise-1);
 				choise--;
-				if (point <= 0) {
-					app.label.setText(name + ", GAME OVER!!!!");
+				if (point < 0) {
+					//app.label.setText(name + ", GAME OVER!!!!");
 					break;
 				}
 			}
-			else if (answer == 6) {
-				app.label1.setText(e.help);
-				lastAns = answer;
-				lastQuest = question;			
+			else if (answer == 6 || answer == 8) {
+				//app.label1.setText(e.help);
+				this.lastAns = answer;
+				this.lastQuest = question;			
+
 			}
 			else if (answer == 5) {
-				if (point <= 300)
-					app.label1.setText("У тебя недостаточно очков, чтобы взять подсказку");
-				else {			
-					e.getHint(app, question, dict.get(question));
-					point-=300;
-				}
+//				if (point <= 300)
+//					app.label1.setText("У тебя недостаточно очков, чтобы взять подсказку");
+//				else {			
+//					e.getHint(app, question, dict.get(question));
+//					point-=300;
+//				}
 				this.lastAns = answer;
 				this.lastQuest = question;
 			}
 			else {
 				this.lastAns = answer;
 				point+=100;
-				app.label1.setText(goodAnswer.get(new Random().nextInt(goodAnswer.size())) + "У тебя: " + point + " очков");
+				botAnswer = goodAnswer.get(new Random().nextInt(goodAnswer.size())) + "У тебя: " + point + " очков";
 				Collections.swap(questList, questList.indexOf(question), choise-1);
 				choise--;
 			}
 		}
+	}
+	public void setQ(String q) {
+		question = q;
+	}
+	public String getQ() {
+		return question;
+	}
+	
+	
+	public void setAnswer(String num) {
+		number = num;
+	}
+	public String getAnswer() {
+		return number;
 	}
 }

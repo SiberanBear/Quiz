@@ -6,55 +6,40 @@ import java.util.Map;
 import java.util.Random;
 
 
-public class Event implements Runnable
+public class Event
 {	
 	private String selectTheme;
 	public String help = "Правила очень простые: Я буду задавать вопросы, "
 			+ "а тебе нужно будет выбрать из четырёх вариантов ответа единственно верный. \n"
 			+ "За правильный ответ будет начислено 100 очков, за неправильный - отнято 300. "
 			+ "Как выиграть? Останься в плюсе до конца! Удачной игры!\n";
+	//int choise;
+	String number = "0";
+	List<String> questList;
+	Map<String, Integer> dict;
+	List<String> goodAnswer;
+	List<String> badAnswer;
 	
-	public void startGame() throws FileException
+	
+	public void startGame(String name, GameQuiz game, Event e) throws FileException
 	{
-		GUI app = new GUI();
-		app.setVisible(true);
-		app.label.setText("Привет! Для начала скажи, как я могу к тебе обращаться?");		
-		while (!app.but7.isSelected()) {
-			try {
-			Thread.sleep(1);
-			} 
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}		
-		}
-		String name = app.name;
-		app.label.setText("Приятно познакомиться, " + name + "!\nДавай сыграем! "
-				+ "\nДля ответа на вопросы используйте клавиши от 1 до 4. Справка вызывается по нажатию клавиши 0");
 		Question creater = new Question();
-		app.label1.setText("Для начала, выберите тематику вопросов: " + creater.theme.get(0) + " " + creater.theme.get(1));
-		while ((!app.but1.isSelected()) && (!app.but2.isSelected())) {
-			try {
-			Thread.sleep(1);
-			} 
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}	
-			if(app.but6.isSelected())
-				app.label.setText(this.help + "Тематики: " + creater.theme.get(0) + " " + creater.theme.get(1));	
+		while(number == "0") {
+			Thread.yield();
+			number = getNumber();
 		}
-		this.selectTheme = app.number;	
-		creater.readFile(this.selectTheme);
-		Map<String, Integer> dict = creater.getDict();
-		List<String> questList = creater.getQwest();	
-		List<String> goodAnswer = creater.getAnswer("GoodAnswer.txt"); 
-		List<String> badAnswer = creater.getAnswer("BadAnswer.txt");
-		new GameQuiz().gameQuiz(name, app, dict, questList, goodAnswer, badAnswer);
+		creater.readFile(number);
+		dict = creater.getDict();
+		questList = creater.getQwest();	
+		goodAnswer = creater.getAnswer("GoodAnswer.txt"); 
+		badAnswer = creater.getAnswer("BadAnswer.txt");
+		game.gameQuiz(name,  dict, questList, goodAnswer, badAnswer, e);
 	}
 	
-	public String selectQuest(GUI app, int choise, String name, int lastAns, String lastQuest, List<String> questList) 
+	public String selectQuest(int choise, String name, int lastAns, String lastQuest, List<String> questList) 
 	{
 		String question = null;
-		if (lastAns == 6)
+		if (lastAns == 6 || lastAns == 8)
 			question = lastQuest;
 		else if (lastAns == 5) {
 			return lastQuest;
@@ -62,11 +47,11 @@ public class Event implements Runnable
 		else
 			question = questList.get(new Random().nextInt(choise));
 		String [] s = question.split(":");
-		app.label.setText(name + s[0] + " \n" + s[1]);
+		//app.label.setText(name + s[0] + " \n" + s[1]);
 		return question;
 	}
 	
-	public void getHint(GUI app, String question, int answer)
+	public void getHint(String question, int answer)
 	{
 		String [] s = question.split(":");
 		String[] s1 = s[1].split(";");
@@ -79,15 +64,23 @@ public class Event implements Runnable
 				notAns.add(i);
 		}
 		ans.add(notAns.get(new Random().nextInt(3)));
-		app.label1.setText(s[0] + " " + ans.get(1) + " " + ans.get(0));
+		//app.label1.setText(s[0] + " " + ans.get(1) + " " + ans.get(0));
 	}
 	
-	@Override
-	public void run() {
-		try {
-			startGame();
-		} catch (FileException e) {
-			e.printStackTrace();
-		}		
+	public void setNumber(String s) {
+		number = s;
 	}
+	
+	public String getNumber() {
+		return number;
+	}
+	
+//	@Override
+//	public void run() {
+//		try {
+//			startGame();
+//		} catch (FileException e) {
+//			e.printStackTrace();
+//		}		
+//	}
 }
