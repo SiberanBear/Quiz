@@ -1,11 +1,11 @@
 package Quiz;
 
-public class FileException extends Exception{
-	public FileException(Throwable cause, String message) {
-		super(cause);
-		}
-	
-	public FileException(){
-		super();
-	}
+class FileException extends Exception{
+    FileException(Throwable cause, String message) {
+        super(cause);
+    }
+
+    FileException(){
+        super();
+    }
 }
