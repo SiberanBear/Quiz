@@ -5,74 +5,63 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static java.lang.Thread.*;
-
 class GameQuiz {
-
-    private int lastAns = 1;
-    private String lastQuest;
+    private String lastAns = "1";
+    private Question lastQuest;
     int choise = 1;
     private String qq;
     private String botAnswer;
     private String hint;
-    String number = "0";
+    private Question question;
+    private Map<String, String> dict;
+    private List<Question> questList;
+    private List<String> goodAnswer;
+    private List<String> badAnswer;
+    private Helper helper;
     int point;
 
-    //int answer = 0; первое нажатие кнопки для выбора тематики
-//Может вызывать вопрос отдельно, потом нажимать на кнопку, а затем передавать в quiz вопрос и ответ?
-    void gameQuiz(Map<String, Integer> dict, List<String> questList, List<String> goodAnswer, List<String> badAnswer, Event e) {
+    void gameQuiz(List<Question> quest, List<String> goodAns,
+                  List<String> badAns, Helper help) {
         point = 0;
+        questList = quest;
+        goodAnswer = goodAns;
+        badAnswer = badAns;
         choise = questList.size();
-        String question;
-        while(true) {
-            if (choise == 0) {
-                break;
-            }
-            question = e.selectQuest(choise, lastAns, lastQuest, questList);
-            String [] s = question.split(":");
-            String[] s1 = s[1].split(";");
-            setQ(", " + s[0] + "<br>" + s1[0] + s1[1] + "<br>" + s1[2] + s1[3]);
-            int answer = Integer.parseInt(number);
-            while(answer == 0) {
-                yield();
-                answer = Integer.parseInt(getAnswer());
-            }
-            number = "0";
-            if (answer != dict.get(question) && answer != 5 && answer != 8) {
-                point -= 300;
-                setBotAnswer("<html>" + badAnswer.get(new Random().nextInt(badAnswer.size()))
-                        + "<br>У тебя: " + point + " очков</html>");
-                Collections.swap(questList, questList.indexOf(question), choise-1);
-                choise--;
-                if (point < 0)
-                    break;
-            }
-            else if (answer == 5) {
-                if (point >= 300){
-                    setHint(e.getHint(question, dict.get(question)));
-                    point-=300;
-                }
-                this.lastAns = answer;
-                this.lastQuest = question;
-            }
-            else {
-                this.lastAns = answer;
-                point+=100;
-                setBotAnswer("<html>" + goodAnswer.get(new Random().nextInt(goodAnswer.size()))
-                        + "<br>У тебя: " + point + " очков</html>");
-                Collections.swap(questList, questList.indexOf(question), choise-1);
-                choise--;
-            }
-        }
+        helper = help;
     }
-    private void setQ(String q) { qq = q; }
-    String getQ() { return qq; }
 
-    void setAnswer(String num) {
-        number = num;
+    Question getQuest(){
+        if (choise == 0)
+            return null;
+        question = helper.selectQuest(choise, lastAns, lastQuest, questList);
+        return question;
     }
-    private String getAnswer() {
-        return number;
+
+    void correctAnswer(String number)
+    {
+        if (!number.contains(question.correctAnswer) && !number.equals("hint")) {
+            point -= 300;
+            setBotAnswer("<html>" + badAnswer.get(new Random().nextInt(badAnswer.size()))
+                    + "<br>У тебя: " + point + " очков</html>");
+            Collections.swap(questList, questList.indexOf(question), choise-1);
+            choise--;
+        }
+        else if (number.equals("hint")) {
+            if (point >= 300){
+                //setHint(helper.getHint(question, dict.get(question)));
+                point-=300;
+            }
+            this.lastAns = number;
+            this.lastQuest = question;
+        }
+        else {
+            this.lastAns = number;
+            point+=100;
+            setBotAnswer("<html>" + goodAnswer.get(new Random().nextInt(goodAnswer.size()))
+                    + "<br>У тебя: " + point + " очков</html>");
+            Collections.swap(questList, questList.indexOf(question), choise-1);
+            choise--;
+        }
     }
 
     private void setHint(String h) {
@@ -88,6 +77,4 @@ class GameQuiz {
     String getBotAnswer() {
         return botAnswer;
     }
-
-
 }
