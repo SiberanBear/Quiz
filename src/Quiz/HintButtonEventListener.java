@@ -14,7 +14,6 @@ public class HintButtonEventListener implements ActionListener {
                 window.label1.setText("У тебя недостаточно очков");
             else{
                 window.game.correctAnswer("hint");
-                //Проблема в том что в условие заходим после метода в котором уже произошло -300
                 window.setMessage(window.game.getQuest().text, window.game.getHint());
             }
         }
